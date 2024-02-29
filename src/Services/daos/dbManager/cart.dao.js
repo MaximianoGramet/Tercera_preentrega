@@ -1,7 +1,7 @@
 import { CartModel } from "../../../models/cart.model.js";
 import {postModel} from "../../../models/product.model.js";
 
-export default class CartDao {
+export class CartDao {
   async findCart() {
     return await CartModel.find();
   }
@@ -160,3 +160,4 @@ export default class CartDao {
     }
   }
 }
+

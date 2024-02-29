@@ -1,10 +1,12 @@
+//TODO:sincronizar las funciones con el dao
+
 export default class CartRepository {
   constructor(dao) {
     this.dao = dao;
   }
 
   async findCart() {
-    return await this.dao.find();
+    return await this.dao.findCart();
   }
 
   async findById(_id) {
@@ -12,32 +14,16 @@ export default class CartRepository {
   }
 
   async createCart(cart) {
-    return await this.dao.create(cart);
+    return await this.dao.createCart(cart);
   }
 
   async updateProducts(cid, cart) {
-    return await this.dao.findByIdAndUpdate(cid, cart);
+    return await this.dao.updateCart(cid, cart);
   }
 
   async deleteProductFromCart(cid, pid) {
     try {
-      const cart = await this.dao.findById(cid);
-
-      if (!cart) {
-        throw new Error('Cart not found');
-      }
-
-      const initialProductCount = cart.products.length;
-
-      cart.products = cart.products.filter(p => !p._id.equals(pid));
-
-      if (cart.products.length === initialProductCount) {
-        throw new Error('Product not found in cart');
-      }
-
-      await cart.save();
-
-      return cart;
+      return await this.dao.deleteProductFromCart(cid, pid);
     } catch (error) {
       throw error;
     }
@@ -45,17 +31,7 @@ export default class CartRepository {
 
   async clearCart(cid) {
     try {
-      const cart = await this.dao.findById(cid);
-
-      if (!cart) {
-        throw new Error('Cart not found');
-      }
-
-      cart.products = [];
-
-      await cart.save();
-
-      return cart;
+      return await this.dao.clearCart(cid);
     } catch (error) {
       throw error;
     }
@@ -63,23 +39,7 @@ export default class CartRepository {
 
   async setProductQuantity(cid, pid, quantity) {
     try {
-      const cart = await this.dao.findById(cid);
-
-      if (!cart) {
-        throw new Error('Cart not found');
-      }
-
-      const product = cart.products.find(p => p._id.equals(pid));
-
-      if (!product) {
-        throw new Error('Product not found in cart');
-      }
-
-      product.quantity = quantity;
-
-      await cart.save();
-
-      return cart;
+      return await this.dao.setProductQuantity(cid, pid, quantity);
     } catch (error) {
       throw error;
     }
@@ -87,23 +47,7 @@ export default class CartRepository {
 
   async addProductCart(cid, pid) {
     try {
-      const cart = await this.dao.findById(cid);
-
-      if (!cart) {
-        throw new Error('Cart not found');
-      }
-
-      const product = cart.products.find(p => p._id.equals(pid));
-
-      if (product) {
-        throw new Error('Product already in cart');
-      }
-
-      cart.products.push(pid);
-
-      await cart.save();
-
-      return cart;
+      return await this.dao.addProductCart(cid, pid);
     } catch (error) {
       throw error;
     }

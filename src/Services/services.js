@@ -1,7 +1,7 @@
-import CartDao from "./daos/dbManager/cart.dao.js";
-import ProductDao from "./daos/dbManager/product.dao.js";
-import TicketDao from "./daos/dbManager/ticket.dao.js";
-import CartRepository from "./repository/cart.repository.js";
+import {CartDao} from         "./daos/dbManager/cart.dao.js";
+import ProductDao from      "./daos/dbManager/product.dao.js";
+import TicketDao from       "./daos/dbManager/ticket.dao.js";
+import CartRepository from  "./repository/cart.repository.js";
 import ProductRepository from "./repository/product.repository.js";
 import TicketRepository from "./repository/ticket.repository.js";
 
