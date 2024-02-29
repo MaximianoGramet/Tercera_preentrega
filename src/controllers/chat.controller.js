@@ -1,8 +1,8 @@
 export const chatBlock = (req,res)=>{
-    if(req.session.user.rol === 'user'){
-    res.render('chat',{})
+    if(req.session.user.rol === 'admin'){
+        res.render('denied')
     }
     else{
-        res.render('denied')
+        res.render('chat',{})
     }
 }

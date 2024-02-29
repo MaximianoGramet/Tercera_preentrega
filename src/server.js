@@ -40,14 +40,18 @@ Host.engine("hbs", handlebars.engine({
     allowProtoMethodsByDefault: true,
     allowProtoPropertiesByDefault: true,
   },
-    extname: ".hbs",
-    defaultLayout: "main",
-    helpers: {
-      eq: function (a, b) {
-        return a === b;
-      }
+  extname: ".hbs",
+  defaultLayout: "main",
+  helpers: {
+    eq: function (a, b) {
+      return a === b;
+    },
+    ifEquals: function(arg1, arg2, options) {
+      return (arg1 === arg2) ? options.fn(this) : options.inverse(this);
     }
+  }
 }));
+
 
 Host.set("view engine", "hbs");
 Host.set("views", `${__dirname}/views`);

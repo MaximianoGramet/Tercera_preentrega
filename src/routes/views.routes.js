@@ -3,6 +3,7 @@ import ProductDao from "../Services/daos/dbManager/product.dao.js";
 import { chatBlock } from "../controllers/chat.controller.js";
 
 const router = Router();
+const productDao = new ProductDao()
 
 router.get("/", (req, res) => {res.render("login.hbs");});
 router.get("/realtimeproducts", (req, res) => {
@@ -24,7 +25,7 @@ router.get("/products", async (req,res) => {
         return res.redirect("/users/login");
       }
     const { limit, page, query, sort } = req.query;
-    const products = await ProductDao.findProducts(limit, page, query, sort);
+    const products = await productDao.findProducts(limit, page, query, sort);
 
     const userData = req.session.user;
     const welcomeMessage = 'Welcome to my store';
