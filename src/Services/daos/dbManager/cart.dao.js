@@ -14,7 +14,7 @@ export class CartDao {
     return await CartModel.create(cart);
   }
 
-  async updateCart(_id, user) {
+  async updateCart(_id, cart) {
     return await CartModel.findByIdAndUpdate({ _id }, cart);
   }
 

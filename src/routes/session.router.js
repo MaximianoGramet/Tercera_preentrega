@@ -1,5 +1,6 @@
 import { Router } from "express";
 import passport from "passport";
+import UserDto from "../Services/dtos/user.dto.js";
 
 const router = Router()
 
@@ -26,7 +27,7 @@ router.post('/login', passport.authenticate("login", {
   failureRedirect: "api/session/fail-login"
 }), async (req,res) => {
   const user = req.user;
-  const rol = "user"
+  const rol = user.roll
   req.session.user = {
       name: `${user.first_name} ${user.last_name}`,
       email: user.email,
@@ -35,7 +36,6 @@ router.post('/login', passport.authenticate("login", {
   }
   res.send({status:'success', payload: req.session.user, message:'Log successful'})
 })
-
 router.get('/logout',  (req,res)=>{
     req.session.destroy(err =>{
         if(!err) return res.status(200).send("Loged Out succesfuly")
@@ -45,6 +45,13 @@ router.get('/logout',  (req,res)=>{
 //estos dos me fueron sugeridos por un compañero
 router.get("/fail-register", (req, res) => {
   res.status(401).send({error: "failed to process register"});
+})
+
+router.get("/current", (req,res)=>{
+  if (!req.session.user) {
+      return res.send({error: "must be logged on"});
+  }
+  res.send({user:new UserDto(req.session.user)})
 })
 
 router.get("/fail-login", (req, res) => {

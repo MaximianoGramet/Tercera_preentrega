@@ -35,12 +35,12 @@ export default class ProductDao {
 
   async getProductById(_id) {
     try {
-      return await postModel.findById(_id);
+      const testeo = await postModel.findById(_id);
+      return(testeo)
     } catch (error) {
       throw new Error(`Error while getting product by ID: ${error.message}`);
     }
   }
-
   //trabajo 7:
   async   findProducts(limit = 10, page = 1, query, sort) {
     let consult = {}

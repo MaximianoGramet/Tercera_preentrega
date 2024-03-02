@@ -14,7 +14,7 @@ export default class CartRepository {
   }
 
   async createCart(cart) {
-    return await this.dao.createCart(cart);
+    return await this.dao.createCart({cart});
   }
 
   async updateProducts(cid, cart) {

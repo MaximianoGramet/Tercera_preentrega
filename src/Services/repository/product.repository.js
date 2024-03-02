@@ -18,11 +18,11 @@ export default class ProductRepository {
     }
   
     async createProduct(productData) {
-      return await this.dao.create(productData);
+      return await this.dao.createProduct(productData);
     }
   
     async updateProduct(id, productData) {
-      return await this.dao.findByIdAndUpdate(id, productData, { new: true });
+      return await this.dao.updateProduct(id, productData, { new: true });
     }
   
     async deleteProduct(id) {

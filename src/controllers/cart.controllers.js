@@ -1,6 +1,7 @@
 import { CartService } from "../Services/services.js";
 import TicketDto from "../Services/dtos/ticket.dto.js"
 import { productService } from "../Services/services.js";
+import { ticketService } from "../Services/services.js";
 
 
 export const getCartController = async (req, res) => {
@@ -151,33 +152,37 @@ export const addProductCartController = async (req, res) => {
 }
 
 export const finishPurchase = async (req,res) =>{
-    let cart = await CartService.findById(req.params.cid)
+    try {
+        let cart = await CartService.findById(req.params.cid)
     let total_price = 0;
     let unstocked_products = []
     for( const item of cart.products){
-        let product = await productService.getProductById(item.product)
+        console.log(item);
+        let product = await productService.getProductById(item._id)
         if(product.stock >= item.quantity){
 
             total_price += item.quantity * product.price
-            let stockcontrol = await productService.updateProduct(item.product,{stock:product.stock - item.quantity})
-            
+            let stockcontrol = await productService.updateProduct(item,{stock:product.stock - item.quantity})       
         }
         else{
             unstocked_products.push({product:product._id,quantity:item.quantity})
         }
-        
-
     }
 
     if(total_price > 0){
-
     cart.products = unstocked_products
     let newCart = await CartService.updateProducts(req.params.cid,cart)
     let newTicket = await ticketService.createTicket({code:`${req.params.cid}_${Date.now()}`,amount:total_price,purchaser:req.session.user.email})
-    console.log(newTicket)
     return res.status(200).json(new TicketDto(newTicket))
     } 
     else{
+        if(cart.products && cart.products.length === 0){
+            return res.status(404).json({ message: "Cart is empty" });
+        }
         return res.status(404).json({message:"Purchase failed"})
+        
+    }
+    } catch (error) {
+        console.error(error)
     }
 }

@@ -1,18 +1,18 @@
 import { Router } from "express"
 import * as CartController from "../controllers/cart.controllers.js"
-
+import { adminApiBlock } from "../utils.js"
 const router = Router()
 
-router.get("/", CartController.getCartController)
+router.get("/",CartController.getCartController)
 router.get("/:cid", CartController.getCartByIdController)
-router.get('/:cid/purchase', CartController.finishPurchase)
+router.get('/:cid/purchase',adminApiBlock() , CartController.finishPurchase)
 router.post("/", CartController.createCartController)
-router.put("/:cid", CartController.updateCartController)
+router.put("/:cid",adminApiBlock() , CartController.updateCartController)
 router.delete("/:cid", CartController.deleteCartController)
-router.delete("/:cid/clear", CartController.clearCartController)
+router.delete("/clear/:cid", CartController.clearCartController)
 router.delete("/:cid/products/:pid", CartController.deleteProductFromCartController)
-router.put('/:cid/products/:pid', CartController.setProductQuantityController)
-router.post("/:cid/products/:pid", CartController.addProductCartController)
+router.put(':/cid/products/:pid',adminApiBlock() , CartController.setProductQuantityController)
+router.post("/:cid/products/:pid",adminApiBlock() , CartController.addProductCartController)
 
 
 export default router

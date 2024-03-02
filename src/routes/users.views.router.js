@@ -11,11 +11,16 @@ router.get("/register", (req,res)=>{
     res.render('register')
 })
 
-router.get("/", (req,res)=>{
+router.get("/current", (req,res)=>{
     if (!req.session.user) {
         return res.redirect("/users/login");
-      }
+    }
     res.render('profile', {user:new UserDto(req.session.user)})
+})
+
+router.get("/cart", (req,res)=>{
+    if (!req.session.user) {return res.redirect("/users/login");}
+    res.render('cart')
 })
 
 export default router

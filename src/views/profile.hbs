@@ -1,7 +1,9 @@
 <div>
-        <p>Mail:{{user.email}}</p>
-        <p>Edad:{{user.age}}</p>
-        <p>Rol:{{user.rol}}</p>
+        
+        <p>Nombre completo: {{user.full_name}}</p>
+        <p>Email: {{user.email}}</p>
+        <p>Edad: {{user.age}}</p>
+        <p>Rol: {{user.rol}}</p>
         <button id="logout" onclick="logout()">Logout</button>
         <script src="/socket.io/socket.io.js"></script>
         <script src="/main.js"></script>
